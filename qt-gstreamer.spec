@@ -1,20 +1,19 @@
 Summary:	QtGStreamer - libraries integrating Qt with GStreamer
 Summary(pl.UTF-8):	QtGStreamer - biblioteki integrujące Qt z GStreamerem
 Name:		qt-gstreamer
-Version:	0.10.0.2
+Version:	0.10.1
 Release:	1
 License:	LGPL v2+
 Group:		Libraries
-#Source0:	http://gstreamer.freedesktop.org/src/qt-gstreamer/%{name}-%{version}.tar.bz2
-Source0:	http://gstreamer.freedesktop.org/src/qt-gstreamer/pre/%{name}-%{version}.tar.bz2
-# Source0-md5:	55bd3c5e076b71e13f5d5652a631639a
+Source0:	http://gstreamer.freedesktop.org/src/qt-gstreamer/%{name}-%{version}.tar.bz2
+# Source0-md5:	d2507a8084973fa9956d792c20013977
 URL:		http://gstreamer.net/
 BuildRequires:	QtCore-devel >= 4.5
 BuildRequires:	QtGui-devel >= 4.5
 BuildRequires:	QtTest-devel >= 4.5
 BuildRequires:	automoc4 >= 0.9.88
 BuildRequires:	bison
-BuildRequires:	boost-devel >= 1.40
+BuildRequires:	boost-devel >= 1.39
 BuildRequires:	cmake >= 2.8
 BuildRequires:	flex
 BuildRequires:	gstreamer-devel >= 0.10.31
@@ -40,6 +39,8 @@ Currently, it consists of the following parts:
  * QtGStreamerUi - library providing integration with QtGui;
    currently, it only provides a video widget that embeds GStreamer's
    video sinks.
+ * QtGStreamerUtils - library providing some high level utility
+   classes.
 
 In addition, it provides a "qwidgetvideosink" GStreamer element, an
 video sink element that can draw directly on QWidgets using QPainter.
@@ -55,6 +56,8 @@ Obecnie zawiera następujące części:
  - QtGStreamer - biblioteka z wiązaniami C++/Qt do GStreamera
  - QtGStreamerUi - biblioteka integrująca z QtGui; obecnie zawiera
    tylko widget wideo osadzający wyjście obrazu (videosink) GStremera.
+ - QtGStreamerUtils - biblioteka udostępniająca klasy narzędziowe
+   wysokiego poziomu.
 
 Ponadto pakiet udostępnia element GStreamera "qwidgetvideosink" -
 element wyjściowy obrazu rysujący bezpośrednio na QWidgetach przy
@@ -113,6 +116,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libQtGStreamer-0.10.so.0
 %attr(755,root,root) %{_libdir}/libQtGStreamerUi-0.10.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtGStreamerUi-0.10.so.0
+%attr(755,root,root) %{_libdir}/libQtGStreamerUtils-0.10.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtGStreamerUtils-0.10.so.0
 %attr(755,root,root) %{_libdir}/gstreamer-0.10/libgstqwidgetvideosink.so
 
 %files devel
@@ -120,9 +125,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libQtGLib-2.0.so
 %attr(755,root,root) %{_libdir}/libQtGStreamer-0.10.so
 %attr(755,root,root) %{_libdir}/libQtGStreamerUi-0.10.so
+%attr(755,root,root) %{_libdir}/libQtGStreamerUtils-0.10.so
 %{_includedir}/QtGStreamer
 %{_pkgconfigdir}/QtGLib-2.0.pc
 %{_pkgconfigdir}/QtGStreamer-0.10.pc
 %{_pkgconfigdir}/QtGStreamerUi-0.10.pc
+%{_pkgconfigdir}/QtGStreamerUtils-0.10.pc
 %dir %{_libdir}/QtGStreamer
 %{_libdir}/QtGStreamer/QtGStreamer*.cmake
