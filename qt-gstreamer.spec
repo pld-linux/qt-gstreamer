@@ -63,9 +63,6 @@ Ponadto pakiet udostępnia element GStreamera "qwidgetvideosink" -
 element wyjściowy obrazu rysujący bezpośrednio na QWidgetach przy
 użyciu QPaintera.
 
-%description -l pl.UTF-8
-GstRTSP to serwer RTSP zbudowany w oparciu o GStreamera.
-
 %package devel
 Summary:	Header files for QtGStreamer libraries
 Summary(pl.UTF-8):	Pliki nagłówkowe bibliotek QtGStreamer
