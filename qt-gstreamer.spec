@@ -1,30 +1,34 @@
 Summary:	QtGStreamer - libraries integrating Qt with GStreamer
 Summary(pl.UTF-8):	QtGStreamer - biblioteki integrujące Qt z GStreamerem
 Name:		qt-gstreamer
-Version:	0.10.1
+Version:	0.10.2
 Release:	1
 License:	LGPL v2+
 Group:		Libraries
 Source0:	http://gstreamer.freedesktop.org/src/qt-gstreamer/%{name}-%{version}.tar.bz2
-# Source0-md5:	d2507a8084973fa9956d792c20013977
+# Source0-md5:	6fd5be25e51b4dbf5a2cc8943be92703
 URL:		http://gstreamer.net/
-BuildRequires:	QtCore-devel >= 4.5
-BuildRequires:	QtGui-devel >= 4.5
-BuildRequires:	QtTest-devel >= 4.5
-BuildRequires:	automoc4 >= 0.9.88
+BuildRequires:	OpenGL-devel
+BuildRequires:	QtCore-devel >= 4.7
+BuildRequires:	QtDeclarative-devel >= 4.7
+BuildRequires:	QtGui-devel >= 4.7
+BuildRequires:	QtOpenGL-devel >= 4.7
+BuildRequires:	QtTest-devel >= 4.7
 BuildRequires:	bison
 BuildRequires:	boost-devel >= 1.39
-BuildRequires:	cmake >= 2.8
+BuildRequires:	cmake >= 2.8.6
 BuildRequires:	flex
-BuildRequires:	gstreamer-devel >= 0.10.31
-BuildRequires:	gstreamer-plugins-base-devel >= 0.10.31
+BuildRequires:	glib2-devel >= 2.0
+BuildRequires:	gstreamer-devel >= 0.10.33
+BuildRequires:	gstreamer-plugins-base-devel >= 0.10.33
 BuildRequires:	libstdc++-devel >= 6:4.5
 BuildRequires:	pkgconfig
-BuildRequires:	qt4-qmake >= 4.5
-Requires:	QtCore >= 4.5
-Requires:	QtGui >= 4.5
-Requires:	gstreamer >= 0.10.31
-Requires:	gstreamer-plugins-base >= 0.10.31
+BuildRequires:	qt4-qmake >= 4.7
+Requires:	QtCore >= 4.7
+Requires:	QtGui >= 4.7
+Requires:	QtOpenGL >= 4.7
+Requires:	gstreamer >= 0.10.33
+Requires:	gstreamer-plugins-base >= 0.10.33
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -68,16 +72,29 @@ Summary:	Header files for QtGStreamer libraries
 Summary(pl.UTF-8):	Pliki nagłówkowe bibliotek QtGStreamer
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	QtCore-devel >= 4.5
-Requires:	QtGui-devel >= 4.5
-Requires:	gstreamer-devel >= 0.10.31
-Requires:	gstreamer-plugins-base-devel >= 0.10.31
+Requires:	QtCore-devel >= 4.7
+Requires:	QtGui-devel >= 4.7
+Requires:	gstreamer-devel >= 0.10.33
+Requires:	gstreamer-plugins-base-devel >= 0.10.33
 
 %description devel
 Header files for QtGStreamer libraries.
 
 %description devel -l pl.UTF-8
 Pliki nagłówkowe bibliotek QtGStreamer.
+
+%package -n QtDeclarative-plugin-gstreamer
+Summary:	Qt GStreamer plugin for QtDeclarative
+Summary(pl.UTF-8):	Wtyczka Qt GStreamer dla QtDeclarative
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+Requires:	QtDeclarative >= 4.7
+
+%description -n QtDeclarative-plugin-gstreamer
+Qt GStreamer plugin for QtDeclarative.
+
+%description -n QtDeclarative-plugin-gstreamer -l pl.UTF-8
+Wtyczka Qt GStreamer dla QtDeclarative.
 
 %prep
 %setup -q
@@ -106,7 +123,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README
+%doc NEWS README
 %attr(755,root,root) %{_libdir}/libQtGLib-2.0.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtGLib-2.0.so.0
 %attr(755,root,root) %{_libdir}/libQtGStreamer-0.10.so.*.*.*
@@ -115,7 +132,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libQtGStreamerUi-0.10.so.0
 %attr(755,root,root) %{_libdir}/libQtGStreamerUtils-0.10.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtGStreamerUtils-0.10.so.0
-%attr(755,root,root) %{_libdir}/gstreamer-0.10/libgstqwidgetvideosink.so
+%attr(755,root,root) %{_libdir}/gstreamer-0.10/libgstqtvideosink.so
 
 %files devel
 %defattr(644,root,root,755)
@@ -130,3 +147,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/QtGStreamerUtils-0.10.pc
 %dir %{_libdir}/QtGStreamer
 %{_libdir}/QtGStreamer/QtGStreamer*.cmake
+
+%files -n QtDeclarative-plugin-gstreamer
+%defattr(644,root,root,755)
+%dir %{_libdir}/qt4/imports/QtGStreamer
+%attr(755,root,root) %{_libdir}/qt4/imports/QtGStreamer/libQtGStreamerQML.so
+%{_libdir}/qt4/imports/QtGStreamer/qmldir
