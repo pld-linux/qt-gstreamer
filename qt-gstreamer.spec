@@ -1,5 +1,4 @@
 # NOTE: copy package to qt-gstreamer0.10 before updating to 1.0.x (when available)
-# TODO: finish Qt5 packages (Quick1/QtDeclarative?)
 #
 # Conditional build:
 %bcond_without	qt4	# Qt 4 libraries
@@ -35,9 +34,7 @@ BuildRequires:	qt4-qmake >= 4.7
 %endif
 %if %{with qt5}
 BuildRequires:	Qt5Core-devel >= 5.0.0
-# ?
-#BuildRequires:	Qt5Declarative-devel >= 5.0.0
-#BuildRequires:	Qt5Quick1-devel >= 5.0.0
+BuildRequires:	Qt5Declarative-devel >= 5.0.0
 BuildRequires:	Qt5Gui-devel >= 5.0.0
 BuildRequires:	Qt5OpenGL-devel >= 5.0.0
 BuildRequires:	Qt5Widgets-devel >= 5.0.0
@@ -178,6 +175,19 @@ Header files for Qt5GStreamer libraries.
 %description -n qt5-gstreamer-devel -l pl.UTF-8
 Pliki nagłówkowe bibliotek Qt5GStreamer.
 
+%package -n Qt5Declarative-plugin-gstreamer
+Summary:	Qt GStreamer plugin for Qt5Declarative
+Summary(pl.UTF-8):	Wtyczka Qt GStreamer dla Qt5Declarative
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+Requires:	Qt5Declarative >= 5.0.0
+
+%description -n Qt5Declarative-plugin-gstreamer
+Qt GStreamer plugin for Qt5Declarative.
+
+%description -n Qt5Declarative-plugin-gstreamer -l pl.UTF-8
+Wtyczka Qt GStreamer dla Qt5Declarative.
+
 %prep
 %setup -q
 
@@ -287,4 +297,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/Qt5GStreamerUi-0.10.pc
 %{_pkgconfigdir}/Qt5GStreamerUtils-0.10.pc
 %{_libdir}/cmake/Qt5GStreamer
+
+%files -n Qt5Declarative-plugin-gstreamer
+%defattr(644,root,root,755)
+%dir %{_libdir}/qt5/imports/QtGStreamer
+%attr(755,root,root) %{_libdir}/qt5/imports/QtGStreamer/libQtGStreamerQuick1.so
+%{_libdir}/qt5/imports/QtGStreamer/qmldir
 %endif
