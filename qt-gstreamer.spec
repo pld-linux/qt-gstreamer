@@ -1,4 +1,4 @@
-# NOTE: copy package to qt-gstreamer0.10 before updating to 1.0.x (when available)
+# TODO: -devel and Qt*Declarative-* packages conflict with gstreamer0.10 equivalents
 #
 # Conditional build:
 %bcond_without	qt4	# Qt 4 libraries
@@ -7,23 +7,26 @@
 Summary:	QtGStreamer - libraries integrating Qt 4 with GStreamer
 Summary(pl.UTF-8):	QtGStreamer - biblioteki integrujące Qt 4 z GStreamerem
 Name:		qt-gstreamer
-Version:	0.10.3
+Version:	1.1.90
 Release:	1
 License:	LGPL v2+
 Group:		Libraries
-Source0:	http://gstreamer.freedesktop.org/src/qt-gstreamer/%{name}-%{version}.tar.bz2
-# Source0-md5:	1dfbca4ffa924b0896dadb42221600e2
+Source0:	http://gstreamer.freedesktop.org/src/qt-gstreamer/%{name}-%{version}.tar.xz
+# Source0-md5:	b6b7f9f905d83d4fc0da2f5cafd284d5
 URL:		http://gstreamer.net/
 BuildRequires:	OpenGL-devel
 BuildRequires:	bison
 BuildRequires:	boost-devel >= 1.39
 BuildRequires:	cmake >= 2.8.9
+BuildRequires:	doxygen
 BuildRequires:	flex
 BuildRequires:	glib2-devel >= 2.0
-BuildRequires:	gstreamer0.10-devel >= 0.10.33
-BuildRequires:	gstreamer0.10-plugins-base-devel >= 0.10.33
+BuildRequires:	gstreamer-devel >= 1.0.0
+BuildRequires:	gstreamer-plugins-base-devel >= 1.0.0
 BuildRequires:	libstdc++-devel >= 6:4.5
 BuildRequires:	pkgconfig
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
 %if %{with qt4}
 BuildRequires:	QtCore-devel >= 4.7
 BuildRequires:	QtDeclarative-devel >= 4.7
@@ -37,6 +40,8 @@ BuildRequires:	Qt5Core-devel >= 5.0.0
 BuildRequires:	Qt5Declarative-devel >= 5.0.0
 BuildRequires:	Qt5Gui-devel >= 5.0.0
 BuildRequires:	Qt5OpenGL-devel >= 5.0.0
+BuildRequires:	Qt5Qml-devel >= 5.0.0
+BuildRequires:	Qt5Quick-devel >= 5.0.0
 BuildRequires:	Qt5Widgets-devel >= 5.0.0
 BuildRequires:	Qt5Test-devel >= 5.0.0
 BuildRequires:	qt5-qmake >= 5.0.0
@@ -44,8 +49,8 @@ BuildRequires:	qt5-qmake >= 5.0.0
 Requires:	QtCore >= 4.7
 Requires:	QtGui >= 4.7
 Requires:	QtOpenGL >= 4.7
-Requires:	gstreamer0.10 >= 0.10.33
-Requires:	gstreamer0.10-plugins-base >= 0.10.33
+Requires:	gstreamer >= 1.0.0
+Requires:	gstreamer-plugins-base >= 1.0.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -91,8 +96,8 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	QtCore-devel >= 4.7
 Requires:	QtGui-devel >= 4.7
-Requires:	gstreamer0.10-devel >= 0.10.33
-Requires:	gstreamer0.10-plugins-base-devel >= 0.10.33
+Requires:	gstreamer-devel >= 1.0.0
+Requires:	gstreamer-plugins-base-devel >= 1.0.0
 
 %description devel
 Header files for QtGStreamer libraries.
@@ -120,8 +125,10 @@ Group:		Libraries
 Requires:	Qt5Core >= 5.0.0
 Requires:	Qt5Gui >= 5.0.0
 Requires:	Qt5OpenGL >= 5.0.0
-Requires:	gstreamer0.10 >= 0.10.33
-Requires:	gstreamer0.10-plugins-base >= 0.10.33
+Requires:	Qt5Quick >= 5.0.0
+Requires:	Qt5Widgets >= 5.0.0
+Requires:	gstreamer >= 1.0.0
+Requires:	gstreamer-plugins-base >= 1.0.0
 
 %description -n qt5-gstreamer
 Qt5GStreamer is a set of libraries and plugins providing C++ bindings
@@ -166,8 +173,10 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	Qt5Core-devel >= 5.0.0
 Requires:	Qt5Gui-devel >= 5.0.0
-Requires:	gstreamer0.10-devel >= 0.10.33
-Requires:	gstreamer0.10-plugins-base-devel >= 0.10.33
+Requires:	Qt5Quick-devel >= 5.0.0
+Requires:	Qt5Widgets-devel >= 5.0.0
+Requires:	gstreamer-devel >= 1.0.0
+Requires:	gstreamer-plugins-base-devel >= 1.0.0
 
 %description -n qt5-gstreamer-devel
 Header files for Qt5GStreamer libraries.
@@ -176,17 +185,31 @@ Header files for Qt5GStreamer libraries.
 Pliki nagłówkowe bibliotek Qt5GStreamer.
 
 %package -n Qt5Declarative-plugin-gstreamer
-Summary:	Qt GStreamer plugin for Qt5Declarative
-Summary(pl.UTF-8):	Wtyczka Qt GStreamer dla Qt5Declarative
+Summary:	Qt GStreamer plugin for Qt5Declarative (Quick1)
+Summary(pl.UTF-8):	Wtyczka Qt GStreamer dla Qt5Declarative (Quick1)
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	Qt5Declarative >= 5.0.0
 
 %description -n Qt5Declarative-plugin-gstreamer
-Qt GStreamer plugin for Qt5Declarative.
+Qt GStreamer plugin for Qt5Declarative (Quick1).
 
 %description -n Qt5Declarative-plugin-gstreamer -l pl.UTF-8
-Wtyczka Qt GStreamer dla Qt5Declarative.
+Wtyczka Qt GStreamer dla Qt5Declarative (Quick1).
+
+%package -n Qt5Qml-plugin-gstreamer
+Summary:	Qt GStreamer plugin for Qt5Qml (Quick2)
+Summary(pl.UTF-8):	Wtyczka Qt GStreamer dla Qt5Qml (Quick2)
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+Requires:	Qt5Qml >= 5.0.0
+Requires:	Qt5Quick >= 5.0.0
+
+%description -n Qt5Qml-plugin-gstreamer
+Qt GStreamer plugin for Qt5Qml (Quick2).
+
+%description -n Qt5Qml-plugin-gstreamer -l pl.UTF-8
+Wtyczka Qt GStreamer dla Qt5Qml (Quick2).
 
 %prep
 %setup -q
@@ -243,25 +266,25 @@ rm -rf $RPM_BUILD_ROOT
 %doc NEWS README
 %attr(755,root,root) %{_libdir}/libQtGLib-2.0.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtGLib-2.0.so.0
-%attr(755,root,root) %{_libdir}/libQtGStreamer-0.10.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtGStreamer-0.10.so.0
-%attr(755,root,root) %{_libdir}/libQtGStreamerUi-0.10.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtGStreamerUi-0.10.so.0
-%attr(755,root,root) %{_libdir}/libQtGStreamerUtils-0.10.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQtGStreamerUtils-0.10.so.0
-%attr(755,root,root) %{_libdir}/gstreamer-0.10/libgstqtvideosink.so
+%attr(755,root,root) %{_libdir}/libQtGStreamer-1.0.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtGStreamer-1.0.so.0
+%attr(755,root,root) %{_libdir}/libQtGStreamerUi-1.0.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtGStreamerUi-1.0.so.0
+%attr(755,root,root) %{_libdir}/libQtGStreamerUtils-1.0.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtGStreamerUtils-1.0.so.0
+%attr(755,root,root) %{_libdir}/gstreamer-1.0/libgstqtvideosink.so
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQtGLib-2.0.so
-%attr(755,root,root) %{_libdir}/libQtGStreamer-0.10.so
-%attr(755,root,root) %{_libdir}/libQtGStreamerUi-0.10.so
-%attr(755,root,root) %{_libdir}/libQtGStreamerUtils-0.10.so
+%attr(755,root,root) %{_libdir}/libQtGStreamer-1.0.so
+%attr(755,root,root) %{_libdir}/libQtGStreamerUi-1.0.so
+%attr(755,root,root) %{_libdir}/libQtGStreamerUtils-1.0.so
 %{_includedir}/QtGStreamer
 %{_pkgconfigdir}/QtGLib-2.0.pc
-%{_pkgconfigdir}/QtGStreamer-0.10.pc
-%{_pkgconfigdir}/QtGStreamerUi-0.10.pc
-%{_pkgconfigdir}/QtGStreamerUtils-0.10.pc
+%{_pkgconfigdir}/QtGStreamer-1.0.pc
+%{_pkgconfigdir}/QtGStreamerUi-1.0.pc
+%{_pkgconfigdir}/QtGStreamerUtils-1.0.pc
 %{_libdir}/cmake/QtGStreamer
 
 %files -n QtDeclarative-plugin-gstreamer
@@ -277,25 +300,29 @@ rm -rf $RPM_BUILD_ROOT
 %doc NEWS README
 %attr(755,root,root) %{_libdir}/libQt5GLib-2.0.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt5GLib-2.0.so.0
-%attr(755,root,root) %{_libdir}/libQt5GStreamer-0.10.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQt5GStreamer-0.10.so.0
-%attr(755,root,root) %{_libdir}/libQt5GStreamerUi-0.10.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQt5GStreamerUi-0.10.so.0
-%attr(755,root,root) %{_libdir}/libQt5GStreamerUtils-0.10.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQt5GStreamerUtils-0.10.so.0
-%attr(755,root,root) %{_libdir}/gstreamer-0.10/libgstqt5videosink.so
+%attr(755,root,root) %{_libdir}/libQt5GStreamer-1.0.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt5GStreamer-1.0.so.0
+%attr(755,root,root) %{_libdir}/libQt5GStreamerQuick-1.0.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt5GStreamerQuick-1.0.so.0
+%attr(755,root,root) %{_libdir}/libQt5GStreamerUi-1.0.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt5GStreamerUi-1.0.so.0
+%attr(755,root,root) %{_libdir}/libQt5GStreamerUtils-1.0.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt5GStreamerUtils-1.0.so.0
+%attr(755,root,root) %{_libdir}/gstreamer-1.0/libgstqt5videosink.so
 
 %files -n qt5-gstreamer-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQt5GLib-2.0.so
-%attr(755,root,root) %{_libdir}/libQt5GStreamer-0.10.so
-%attr(755,root,root) %{_libdir}/libQt5GStreamerUi-0.10.so
-%attr(755,root,root) %{_libdir}/libQt5GStreamerUtils-0.10.so
+%attr(755,root,root) %{_libdir}/libQt5GStreamer-1.0.so
+%attr(755,root,root) %{_libdir}/libQt5GStreamerQuick-1.0.so
+%attr(755,root,root) %{_libdir}/libQt5GStreamerUi-1.0.so
+%attr(755,root,root) %{_libdir}/libQt5GStreamerUtils-1.0.so
 %{_includedir}/Qt5GStreamer
 %{_pkgconfigdir}/Qt5GLib-2.0.pc
-%{_pkgconfigdir}/Qt5GStreamer-0.10.pc
-%{_pkgconfigdir}/Qt5GStreamerUi-0.10.pc
-%{_pkgconfigdir}/Qt5GStreamerUtils-0.10.pc
+%{_pkgconfigdir}/Qt5GStreamer-1.0.pc
+%{_pkgconfigdir}/Qt5GStreamerQuick-1.0.pc
+%{_pkgconfigdir}/Qt5GStreamerUi-1.0.pc
+%{_pkgconfigdir}/Qt5GStreamerUtils-1.0.pc
 %{_libdir}/cmake/Qt5GStreamer
 
 %files -n Qt5Declarative-plugin-gstreamer
@@ -303,4 +330,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/qt5/imports/QtGStreamer
 %attr(755,root,root) %{_libdir}/qt5/imports/QtGStreamer/libQtGStreamerQuick1.so
 %{_libdir}/qt5/imports/QtGStreamer/qmldir
+
+%files -n Qt5Qml-plugin-gstreamer
+%defattr(644,root,root,755)
+%dir %{_libdir}/qt5/qml/QtGStreamer
+%attr(755,root,root) %{_libdir}/qt5/qml/QtGStreamer/libQtGStreamerQuick2.so
+%{_libdir}/qt5/qml/QtGStreamer/qmldir
 %endif
