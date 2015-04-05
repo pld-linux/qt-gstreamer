@@ -13,6 +13,7 @@ License:	LGPL v2+
 Group:		Libraries
 Source0:	http://gstreamer.freedesktop.org/src/qt-gstreamer/%{name}-%{version}.tar.xz
 # Source0-md5:	fd794045a828c184acc1794b08a463fd
+Patch0:		boost-moc.patch
 URL:		http://gstreamer.net/
 BuildRequires:	OpenGL-devel
 BuildRequires:	bison
@@ -213,6 +214,7 @@ Wtyczka Qt GStreamer dla Qt5Qml (Quick2).
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %if %{with qt4}
