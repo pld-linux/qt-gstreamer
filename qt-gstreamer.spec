@@ -8,7 +8,7 @@ Summary:	QtGStreamer - libraries integrating Qt 4 with GStreamer
 Summary(pl.UTF-8):	QtGStreamer - biblioteki integrujące Qt 4 z GStreamerem
 Name:		qt-gstreamer
 Version:	1.2.0
-Release:	1
+Release:	2
 License:	LGPL v2+
 Group:		Libraries
 Source0:	http://gstreamer.freedesktop.org/src/qt-gstreamer/%{name}-%{version}.tar.xz
