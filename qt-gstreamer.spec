@@ -8,7 +8,7 @@ Summary:	QtGStreamer - libraries integrating Qt 4 with GStreamer
 Summary(pl.UTF-8):	QtGStreamer - biblioteki integrujące Qt 4 z GStreamerem
 Name:		qt-gstreamer
 Version:	1.2.0
-Release:	2
+Release:	3
 License:	LGPL v2+
 Group:		Libraries
 Source0:	http://gstreamer.freedesktop.org/src/qt-gstreamer/%{name}-%{version}.tar.xz
@@ -171,7 +171,7 @@ użyciu QPaintera.
 Summary:	Header files for Qt5GStreamer libraries
 Summary(pl.UTF-8):	Pliki nagłówkowe bibliotek QtGStreamer
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	qt5-gstreamer = %{version}-%{release}
 Requires:	Qt5Core-devel >= 5.0.0
 Requires:	Qt5Gui-devel >= 5.0.0
 Requires:	Qt5Quick-devel >= 5.0.0
